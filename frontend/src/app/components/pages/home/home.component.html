@@ -1,0 +1,40 @@
+<app-search></app-search>
+<app-not-found [visible]="!items || !items.length"
+  resetLinkText="Reset Search"></app-not-found>
+<ul>
+
+  <li *ngFor="let items of items">
+    <a routerLink="/items/{{items.id}}">
+      <img [src]="items.imageUrl" [alt]="items.name"/>
+      <div class="content">
+        <div class="name">
+          {{items.name}}
+        </div>
+        <span class="favourite {{items.favorite?'':'not'}}">🤍</span>
+        
+        <div class="price">
+          <span>
+            {{items.price | currency}}
+          </span>
+  
+        </div>
+        
+
+      </div>
+
+     <!--<div class="product-item-footer">
+        <div class="origins">
+          <span *ngFor="let origin of items.origins">
+            {{origin}}
+          </span>
+        </div>
+      </div> -->
+
+      
+    </a>
+
+  </li>
+
+
+
+</ul>
