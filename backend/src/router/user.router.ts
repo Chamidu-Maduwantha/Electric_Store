@@ -17,7 +17,7 @@ router.get("/seed",asyncHandler(
         }
 
         await UserModel.create(sample_users);
-        res.send("Seed is Done")
+        res.send("Seed is Done");
     })
 )
 
@@ -26,11 +26,12 @@ router.post("/login",asyncHandler(
         const {email, password} = req.body;
         const user = await UserModel.findOne({email,password});
     
-        if(user){
-            res.send(genarateTokenResponce(user))
-        }else{
-            res.status(HTTP_BAD_REQUEST).send("username or password invalid");
-        }
+        if(user && (await bcrypt.compare(password,user.password))) {
+            res.send(generateTokenReponse(user));
+           }
+           else{
+             res.status(HTTP_BAD_REQUEST).send("Username or password is invalid!");
+           }
     }
 ))
 
@@ -55,16 +56,26 @@ router.post('/register',asyncHandler(
         }
 
         const dbUser = await UserModel.create(newUSer);
-        res.send(genarateTokenResponce(dbUser))
+        res.send(generateTokenReponse(dbUser));
         
     }
 ))
 
-const genarateTokenResponce = (user:any)=>{
+const generateTokenReponse = (user : user) => {
     const token = jwt.sign({
-        email:user.email,isAdmin:user.isAdmin
-    },"SomeRandomText",{
-        expiresIn:"30d"
+      id: user.id, email:user.email, isAdmin: user.isAdmin
+    },process.env.JWT_SECRET!,{
+      expiresIn:"30d"
     });
+  
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      address: user.address,
+      isAdmin: user.isAdmin,
+      token: token
+    };
 }
+
 export default router;

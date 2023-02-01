@@ -5,8 +5,8 @@ import cors from "cors";
 import { sample_items, sample_users } from './data';
 import itemRouter from './router/item.router';
 import userRouter from './router/user.router';
-//import orderRouter from './routers/order.router';
 import { dbConnect } from './config/database.config';
+import orderRouter from './router/order.router';
 dbConnect();
 
 const app = express();
@@ -22,7 +22,7 @@ app.use(cors({
 
 app.use("/api/item",itemRouter);
 app.use("/api/user", userRouter);
-//app.use("/api/orders", orderRouter);
+app.use("/api/orders", orderRouter);
 
 //app.use(express.static('public'));
 //app.get('*', (req, res) => {

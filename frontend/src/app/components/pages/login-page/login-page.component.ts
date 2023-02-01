@@ -12,17 +12,17 @@ export class LoginPageComponent implements OnInit {
 
   loginForm!:FormGroup;
   isSubmitted = false;
-  returnUrl=';'
+  returnUrl='';
   constructor(private formBuilder:FormBuilder,private userService:UserService,
     private activatedRoute:ActivatedRoute,private router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email:['',[Validators.required , Validators.email]],
+      email:['', [Validators.required,Validators.email]],
       password:['', Validators.required]
     });
 
-    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl
+    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
 
   }
 
